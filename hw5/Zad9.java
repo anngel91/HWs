@@ -8,7 +8,6 @@ public class Zad9 {
 		Scanner sc = new Scanner(System.in);
 		String str = sc.nextLine();
 		sc.close();
-		// ¬карва в масив
 		char arr[] = str.toCharArray();
 		int numSum = 0;
 		boolean isNegative = false;
@@ -25,20 +24,24 @@ public class Zad9 {
 				for (; i < arr.length; i++) {
 					if (arr[i] >= '0' && arr[i] <= '9') {
 						number = number * 10 + Character.getNumericValue(arr[i]);
-						if (i + 1 == arr.length) {
+						if (i + 1 == arr.length && isNegative) {
+							number *= -1;
+							numSum += number;
+						} else if (i + 1 == arr.length) {
 							numSum += number;
 						}
 					} else {
 						if (isNegative && number > 0) {
 							number *= -1;
 						}
+						i--;
 						isNegative = false;
 						numSum += number;
 						break;
 					}
 				}
-
 			}
+
 		}
 		System.out.println("Sum is : " + numSum);
 	}

@@ -1,10 +1,17 @@
 package hw10;
 
 public interface INotepad {
-	void addText(int pageNumber);
-	void editText(int pageNumber);
+
+	void addTextToPage(int pageNumber);
+
+	void replaceText(int pageNumber);
+
 	void deleteText(int pageNumber);
-	void printPage();
+
+	void printAllPages();
+
 	void searchWord(String word);
+
 	void printAllPagesWithDigits();
+
 }

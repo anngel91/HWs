@@ -2,86 +2,87 @@ package hw10;
 
 import java.util.Scanner;
 
-public class SecuredNotepad implements INotepad {
-	Scanner scp = new Scanner(System.in);
-	String passInput = scp.nextLine();
-	String password;
-	Page[] pages;
+public class SecuredNotepad extends SimpleNotepad implements INotepad {
 
-	public SecuredNotepad(String password, Page[] pages) {
-		super();
-		this.password = password;
-		this.pages = pages;
+	SecuredNotepad(String title, int numberOfPages) {
+		super(title, numberOfPages);
 	}
 
-	void checkIfPasswordIsStrong() {
-		boolean upperCase = !password.equals(password.toLowerCase());
-		boolean lowerCase = !password.equals(password.toUpperCase());
-		if (this.password.length() < 5) {
-			for (int i = 0; i < this.password.length(); i++) {
-				if(!upperCase)
-					System.out.println("Must have an uppercase Character");
-				if(!lowerCase)
-					System.out.println("Must have a lowercase Character");
-			}
+	SecuredNotepad(String title, int numberOfPages, String pass) {
+		super(title, numberOfPages);
+		this.password = pass;
+	}
 
+	Scanner sc = new Scanner(System.in);
+	protected String password;
+
+	private String enterPassword() {
+		System.out.println("Enter password: ");
+		String pass = sc.nextLine();
+		while (!passwordMatches(pass)) {
+			System.out.println("Password incorrect!");
+			pass = sc.nextLine();
 		}
+		return pass;
+	}
+
+	private boolean passwordMatches(String pass) {
+		if (pass.equals(this.password)) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public void addText(int pageNumber) {
-		System.out.println("Enter password:");
-		if (this.password.equals(passInput)) {
-			pages[pageNumber].addText();
+	public void addTextToPage(int pageNumber) {
+		enterPassword();
+		if (pageExists(pageNumber)) {
+			this.pages[pageNumber - 1].addText();
 		}
 
 	}
 
 	@Override
-	public void editText(int pageNumber) {
-		System.out.println("Enter password:");
-		if (this.password.equals(passInput)) {
-			pages[pageNumber].deleteText();
-			pages[pageNumber].addText();
+	public void replaceText(int pageNumber) {
+		enterPassword();
+		if (pageExists(pageNumber)) {
+			this.pages[pageNumber - 1].deleteText();
+			this.pages[pageNumber - 1].addText();
 		}
 	}
 
 	@Override
 	public void deleteText(int pageNumber) {
-		System.out.println("Enter password:");
-		if (this.password.equals(passInput)) {
-			pages[pageNumber].deleteText();
+		enterPassword();
+		if (pageExists(pageNumber)) {
+			this.pages[pageNumber - 1].deleteText();
 		}
 	}
 
 	@Override
-	public void printPage() {
-		System.out.println("Enter password:");
-		if (this.password.equals(passInput)) {
-			for (Page n : pages) {
-				n.printPage();
-			}
+	public void printAllPages() {
+		enterPassword();
+		for (int i = 0; i < pages.length; i++) {
+			pages[i].printPage();
 		}
 	}
 
 	@Override
 	public void searchWord(String word) {
-		System.out.println("Enter password:");
-		if (this.password.equals(passInput)) {
-			for (Page n : pages) {
-				n.searchWord(word);
+		enterPassword();
+		if (word != null) {
+			for (int i = 0; i < pages.length; i++) {
+				pages[i].searchWord(word);
 			}
 		}
 	}
 
 	@Override
 	public void printAllPagesWithDigits() {
-		System.out.println("Enter password:");
-		if (this.password.equals(passInput)) {
-			for (int i = 0; i < pages.length; i++) {
-				if (pages[i].getText().matches(".*\\d.*")) {
-					System.out.println();
-				}
+		enterPassword();
+		for (int i = 0; i < pages.length; i++) {
+			if (pages[i].containsDigits()) {
+				pages[i].printPage();
 			}
 		}
 	}

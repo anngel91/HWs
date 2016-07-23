@@ -1,37 +1,70 @@
 package hw10;
 
-import java.util.Scanner;
-
-public class ElectronicSecuredNotepad extends SecuredNotepad implements IElectronicDevice {
+public class ElectronicSecuredNotepad extends SecuredNotepad implements INotepad, IElectronicDevice {
 	private boolean isStarted;
-	Scanner scElPass = new Scanner(System.in);
-	public ElectronicSecuredNotepad(String password, Page[] pages) {
-		super(password, pages);
+
+	ElectronicSecuredNotepad(String title, int numberOfPages, String password, boolean isStarted) {
+		super(title, numberOfPages);
+		this.password = password;
+		this.isStarted = isStarted;
 	}
 
 	@Override
 	public void start() {
-		if (this.password.equals(scElPass.nextLine())){
-			this.isStarted = true;
-			System.out.println("Started.");
+		if (!isStarted) {
+			isStarted = true;
+			System.out.println("Device started.");
 		}
-		
 	}
 
 	@Override
 	public void stop() {
-		this.isStarted = false;
-		System.out.println("Stopped.");
+		if (this.isStarted) {
+			isStarted = false;
+			System.out.println("Device stopped.");
+		}
 	}
 
 	@Override
 	public boolean isStarted() {
-		if(isStarted==true) {
-			return true;
-		}
-		else {
-			return false;
-		}
+
+		return this.isStarted;
+	}
+
+	@Override
+	public void addTextToPage(int pageNumber) {
+		if (isStarted)
+			super.addTextToPage(pageNumber);
+	}
+
+	@Override
+	public void replaceText(int pageNumber) {
+		if (isStarted)
+			super.replaceText(pageNumber);
+	}
+
+	@Override
+	public void deleteText(int pageNumber) {
+		if (isStarted)
+			super.deleteText(pageNumber);
+	}
+
+	@Override
+	public void printAllPages() {
+		if (isStarted)
+			super.printAllPages();
+	}
+
+	@Override
+	public void printAllPagesWithDigits() {
+		if (isStarted)
+			super.printAllPagesWithDigits();
+	}
+
+	@Override
+	public void searchWord(String word) {
+		if (isStarted)
+			super.searchWord(word);
 	}
 
 }

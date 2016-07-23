@@ -16,6 +16,16 @@ public class Page {
 		this.text = sc.nextLine();
 	}
 
+	void printPage() {
+		System.out.println(this.header);
+		System.out.println();
+		System.out.println(this.text);
+	}
+
+	void deleteText() {
+		this.text = "";
+	}
+
 	void searchWord(String word) {
 		if (this.text.contains(word)) {
 			System.out.println("Text contains: " + word);
@@ -24,37 +34,11 @@ public class Page {
 		}
 	}
 
-	void containsDigits() {
+	boolean containsDigits() {
 		if (this.text.matches(".*\\d.*")) {
-			System.out.println("There are digits.");
+			return true;
 		} else {
-			System.out.println("There are no digits.");
+			return false;
 		}
-	}
-
-	void deleteText() {
-		this.text = "";
-	}
-
-	void printPage() {
-		System.out.println(this.header);
-		System.out.println();
-		System.out.println(this.text);
-	}
-
-	public String getHeader() {
-		return header;
-	}
-
-	public void setHeader(String header) {
-		this.header = header;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
 	}
 }

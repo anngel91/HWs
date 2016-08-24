@@ -24,9 +24,10 @@ public class Demo {
 			public void run() {
 				long start = System.currentTimeMillis();
 				Scanner sc;
+				int commaCounter = 0;
 				try {
 					sc = new Scanner(f);
-					int commaCounter = 0;
+
 					while (sc.hasNextLine()) {
 						for (char c : sc.nextLine().toCharArray()) {
 							if (c == ',') {
@@ -35,9 +36,14 @@ public class Demo {
 						}
 					}
 					sc.close();
+
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
+				long end = System.currentTimeMillis() - start;
+				System.out.println("In " + end + "ms with " + numberOfThreads + " threads:");
+				System.out.println("Found " + commaCounter + " commas.");
+				System.out.println("================");
 			}
 		};
 		exec.execute(task);

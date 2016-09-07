@@ -2,27 +2,23 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class Demo2 {
 
-	public static <K, V extends Comparable<V>> Map<K, V> sortByValues(final Map<K, V> map) {
-		Comparator<K> valueComparator = new Comparator<K>() {
-			public int compare(K k1, K k2) {
-				int compare = map.get(k2).compareTo(map.get(k1));
-				if (compare == 0)
-					return 1;
-				else
-					return compare;
+	static <K, V extends Comparable<? super V>> SortedSet<Map.Entry<K, V>> entriesSortedByValues(Map<K, V> map) {
+		SortedSet<Map.Entry<K, V>> sortedEntries = new TreeSet<Map.Entry<K, V>>(new Comparator<Map.Entry<K, V>>() {
+			@Override
+			public int compare(Map.Entry<K, V> e1, Map.Entry<K, V> e2) {
+				int res = e1.getValue().compareTo(e2.getValue());
+				return res != 0 ? res : 1;
 			}
-		};
-		Map<K, V> sortedByValues = new TreeMap<K, V>(valueComparator);
-		sortedByValues.putAll(map);
-		return sortedByValues;
+		});
+		sortedEntries.addAll(map.entrySet());
+		return sortedEntries;
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
@@ -40,11 +36,7 @@ public class Demo2 {
 			}
 		}
 
-		sortByValues(map);
-		for (Iterator<Entry<String, Integer>> it = map.entrySet().iterator(); it.hasNext();) {
-			Entry e1 = it.next();
-			System.out.println(e1.getKey() + " " + e1.getValue());
-		}
+		System.out.println(entriesSortedByValues(map));
 
 		System.out.println("Total distinct words: " + map.size());
 	}
